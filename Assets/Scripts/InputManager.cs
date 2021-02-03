@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//asdfx
 public class InputManager : MonoBehaviour
 {
     // Start is called before the first frame update
