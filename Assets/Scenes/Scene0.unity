@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05af4e095deace149b35862f30ef36e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coin: 0
+  Coin: 0
 --- !u!135 &113045161
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -433,6 +433,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &113045162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113045152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d3df35489151d4e9ae2725c8820198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeT: 0
+  xAngle: 0
+  yAngle: 0
+  zAngle: 0
 --- !u!1 &147813495
 GameObject:
   m_ObjectHideFlags: 0
