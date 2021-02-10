@@ -6,19 +6,19 @@ public class PlayerComponent : MonoBehaviour
 {
     public int Coins = 0;
     // Start is called before the first frame update
-    public int currScore = 0;
+    public int currScore;
 
     [SerializeField] Text scoreAmount;
 
     void Start()
     {
-
+        currScore = Coins;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateScoreUI();
     }
 
     void OnTriggerEnter(Collider other) {
@@ -28,13 +28,14 @@ public class PlayerComponent : MonoBehaviour
             //destroy the coin
             Destroy(other.gameObject);
             Coins += 1;
-            currScore = currScore + Coins;
-            UpdateScoreUI();
+            currScore += 1;
         }
     }
 
     private void UpdateScoreUI()
     {
-        scoreAmount.text = currScore.ToString("0");
+        
+        scoreAmount.text = "Score: " + currScore.ToString("0");
+
     }
 }
