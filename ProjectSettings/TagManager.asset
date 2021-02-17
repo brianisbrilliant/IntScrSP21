@@ -7,6 +7,9 @@ TagManager:
   - Floor
   - Pickup
   - Coin
+  - Key
+  - Door
+  - Item
   layers:
   - Default
   - TransparentFX

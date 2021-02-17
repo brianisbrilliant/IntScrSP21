@@ -8,21 +8,48 @@ public class PlayerController : MonoBehaviour
     bool crouch = false;
     public int coins = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField]
+    Transform hand;     // this is a hand-positioned Empty child of Camera.
 
-    }
+    IItem heldItem;
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetButtonDown("Fire1")) {
+            Debug.Log("I've pressed Left Mouse Button");
+            if(heldItem != null) {
+                heldItem.Use();
+            } else {
+                Debug.Log("We aren't holding anything.");
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Q)) {
+            if(heldItem != null) {
+                heldItem.Drop();
+                heldItem = null;
+            } else {
+                Debug.Log("We aren't holding anything.");
+            }
+        }
+
         crouching();
     }
 
+    // variables that should go at the top...
+    
+
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("I have hit " + other.gameObject.name + "!");
+        // Debug.Log("I have hit " + other.gameObject.name + "!");
+
+        if(other.gameObject.CompareTag("Item")) {
+            Debug.Log("I'm trying to pick up an item.");
+            heldItem = other.GetComponent<Gun>();
+            heldItem.Pickup(hand);
+        }
+
         if(other.gameObject.CompareTag("Pickup"))
         {
             Destroy(other.gameObject);
