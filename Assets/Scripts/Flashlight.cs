@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Flashlight : MonoBehaviour, IItem
 {
-    //this function will be called from the player controller
-    public void Pickup(Transform hand) {
+    
+    [SerializeField]
+    Light flashLight;
+
+    bool canSwitchLight = true;
+
+    // Start is called before the first frame update
+    public void Pickup(Transform hand){
         this.gameObject.transform.SetParent(hand);
         this.transform.localPosition = Vector3.zero;
         this.transform.localRotation = Quaternion.identity;
@@ -13,22 +19,26 @@ public class Gun : MonoBehaviour
         this.GetComponent<Collider>().enabled = false;
     }
 
-    public void Use(GameObject Bullet) {
-        Debug.Log("<color=red>Pow!</color>");
-        Transform firePoint;
-        firePoint = GameObject.Find("FirePoint").transform;
-        GameObject bullet;
-        bullet = Instantiate(Bullet, firePoint.position, firePoint.rotation, null);
-        bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 200);
-
+    public void Use(){
+        Debug.Log("Using our light");
+        if(canSwitchLight){
+            flashLight.enabled =!flashLight.enabled;
+            canSwitchLight = false;
+            StartCoroutine(Wait());
+        }
     }
 
-    public void Drop() {
+    public void Drop(){
         Debug.Log("Dropping our item.");
         this.gameObject.transform.SetParent(null);
         this.transform.Translate(0,0,2);
         this.GetComponent<Rigidbody>().isKinematic = false;
         this.GetComponent<Rigidbody>().AddForce(transform.forward * 10, ForceMode.Impulse);
         this.GetComponent<Collider>().enabled = true;
+    }
+
+    IEnumerator Wait(){
+        yield return new WaitForSeconds(.2f);
+        canSwitchLight = true;
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int coins; 
-    Gun heldItem;
+    IItem heldItem;
     // Start is called before the first frame update
-    [SerializeField] GameObject bullet;
+   
 
     void Start()
     {
@@ -17,10 +17,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1")) {
+        if(Input.GetButton("Fire1")) {
             Debug.Log("Iv'e pressed Left Mouse Button");
             if(heldItem != null){
-                heldItem.Use(bullet);
+                heldItem.Use();
             } else {
                 Debug.Log("We arent holding anything");
             }
@@ -43,7 +43,10 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Item"))
         {
-            heldItem = other.GetComponent<Gun>();
+            if(heldItem != null){
+                return;
+            }
+            heldItem = other.GetComponent<IItem>();
             heldItem.Pickup(hand);
         }
 
@@ -65,4 +68,5 @@ public class PlayerController : MonoBehaviour
             other.gameObject.GetComponent<Renderer>().material.color = Color.white;
         }
     }
+
 }
