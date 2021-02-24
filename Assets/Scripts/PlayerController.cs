@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1")) {
+        if(Input.GetButton("Fire1")) {
             Debug.Log("I've pressed Left Mouse Button");
             if(heldItem != null) {
                 heldItem.Use();
@@ -46,7 +46,10 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.CompareTag("Item")) {
             Debug.Log("I'm trying to pick up an item.");
-            heldItem = other.GetComponent<Gun>();
+            if(heldItem != null) {
+                return;
+            }
+            heldItem = other.GetComponent<IItem>();
             heldItem.Pickup(hand);
         }
 

@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour, IItem
+public class Flashlight : MonoBehaviour, IItem
 {
     [SerializeField]
-    Transform bulletSpawn;
+    Light flashlight;
 
-    bool canShoot = true;
+    bool canSwitchLight = true;             // the player can turn the flashlight on or off.
 
-    void Start() {
-        if(bulletSpawn == null) {
-            bulletSpawn = this.transform.GetChild(0);
-        }
-    }
-
-    // this function will be called from the PlayerController.
     public void Pickup(Transform hand) {
         Debug.Log("I am running the Pickup() method.");
         this.gameObject.transform.SetParent(hand);             // make gun follow hand
@@ -23,20 +16,15 @@ public class Gun : MonoBehaviour, IItem
         this.transform.localRotation = Quaternion.identity;    // make gun face forward same as hand
         this.GetComponent<Rigidbody>().isKinematic = true;     // make gun not fall
         this.GetComponent<Collider>().enabled = false;                                  // turn off gun's collider
-        // other.GetComponent<Rigidbody>().enabled = false;     // if you still get pushed around, add this.
     }
 
     public void Use() {
-        if(!canShoot) return;
-        Debug.Log("<color=red>Pow!</color>");
-        GameObject ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        ball.transform.localScale = Vector3.one * 0.2f;
-        ball.transform.position = bulletSpawn.position;
-        ball.transform.Translate(transform.forward);        // move the ball forward by 1 meter.
-        Rigidbody rb = ball.AddComponent<Rigidbody>();
-        rb.AddForce(transform.forward * 50, ForceMode.Impulse);
-        canShoot = false;
-        StartCoroutine(Wait());
+        Debug.Log("Using our light!");
+        if(canSwitchLight) {                // if canswitch is true...
+            flashlight.enabled = !flashlight.enabled;       // switch the light
+            canSwitchLight = false;         // disable canswitch    
+            StartCoroutine(Wait());         // wait for 1 second
+        }
     }
 
     public void Drop() {
@@ -49,7 +37,7 @@ public class Gun : MonoBehaviour, IItem
     }
 
     IEnumerator Wait() {
-        yield return new WaitForSeconds(.1f);     // wait for 1 second
-        canShoot = true;                  // make canswitch true again.
+        yield return new WaitForSeconds(.2f);     // wait for 1 second
+        canSwitchLight = true;                  // make canswitch true again.
     }
 }
