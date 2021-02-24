@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour, IItem
 {
+    [SerializeField]
+    Transform bulletSpawn;
+
+    void Start() {
+        if(bulletSpawn == null) {
+            bulletSpawn = this.transform.GetChild(0);
+        }
+    }
     // this function will be called from the PlayerController.
     public void Pickup(Transform hand) {
         Debug.Log("I am running the Pickup() method.");
@@ -17,6 +25,13 @@ public class Gun : MonoBehaviour, IItem
 
     public void Use() {
         Debug.Log("<color=red>Pow!</color>");
+        GameObject ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        ball.transform.localScale = Vector3.one * 0.15f;
+        ball.transform.position = bulletSpawn.position;
+        ball.transform.Translate(transform.forward);
+
+        Rigidbody rb = ball.AddComponent<Rigidbody>();
+        rb.AddForce(transform.forward * 50, ForceMode.Impulse);
     }
 
     public void Drop() {
