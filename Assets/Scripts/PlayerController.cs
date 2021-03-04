@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,14 +9,35 @@ public class PlayerController : MonoBehaviour
     bool crouch = false;
     public int coins = 0;
 
+    public TextMeshProUGUI scoreText;
+
     [SerializeField]
     Transform hand;     // this is a hand-positioned Empty child of Camera.
 
     IItem heldItem;
 
+    Vector3 startPosition;
+
+    void Start() {
+        startPosition = this.transform.position;
+        // allow FPSController to "teleport"
+        this.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+    }
+
+    float timer = 0, interval = 2;
+
     // Update is called once per frame
     void Update()
     {
+        // a test timer
+        if(timer < interval) {
+            timer += Time.deltaTime;
+        } else {
+            timer = 0;
+            Debug.Log("Timer has gone off!");
+        }
+
+
         if(Input.GetButton("Fire1")) {
             Debug.Log("I've pressed Left Mouse Button");
             if(heldItem != null) {
@@ -32,6 +54,11 @@ public class PlayerController : MonoBehaviour
             } else {
                 Debug.Log("We aren't holding anything.");
             }
+        }
+
+        if(this.transform.position.y < -5) {
+            Debug.Log("Resetting Position");
+            this.transform.position = startPosition;
         }
 
         crouching();
@@ -63,7 +90,9 @@ public class PlayerController : MonoBehaviour
         
         if(other.gameObject.CompareTag("Coin")) {
             Destroy(other.gameObject);
-            coins +=1;
+            coins += 1;
+            scoreText.text = "Keys: " + coins.ToString();
+            
             // Destroy the coin
             Destroy(other.gameObject);
         }
