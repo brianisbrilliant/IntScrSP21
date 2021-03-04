@@ -742,7 +742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coins: 0
-  bullet: {fileID: 0}
+  bullet: {fileID: 8349268779952047621, guid: 2cb9917219c715e4fa8bd8b7cf1a45de, type: 3}
   hand: {fileID: 151062463}
 --- !u!135 &1803712680
 SphereCollider:
