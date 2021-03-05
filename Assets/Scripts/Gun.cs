@@ -54,4 +54,8 @@ public class Gun : MonoBehaviour, IItem
         yield return new WaitForSeconds(1);
         gunIsFiring = true;
     }
+
+    public void SecondaryUse() {
+        
+    }
 }

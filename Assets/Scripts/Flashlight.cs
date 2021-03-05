@@ -37,6 +37,10 @@ public class Flashlight : MonoBehaviour, IItem
         this.GetComponent<Collider>().enabled = true;
     }
 
+    public void SecondaryUse() {
+        
+    }
+
     IEnumerator Wait(){
         yield return new WaitForSeconds(.2f);
         canSwitchLight = true;

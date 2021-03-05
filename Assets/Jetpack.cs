@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Translocator : MonoBehaviour, IItem
+public class Jetpack : MonoBehaviour, IItem
 {
     
     [SerializeField]
@@ -31,18 +31,17 @@ public class Translocator : MonoBehaviour, IItem
 
     public void Use() {
         Debug.Log("<color=red>Pow!</color>");
-        //Transform FirePoint;
-        //firePoint = GameObject.Find("FirePoint").transform;
         if (isFire){
-            //gunIsFiring.enabled = =!gunIsFiring.enabled;
-            Teleport();
-            //StartCoroutine(Wait());        
+            StartCoroutine(Wait());        
             } else {
                 TBullet = Instantiate(TBullet, FirePoint.position, FirePoint.rotation, null);
                 TBullet.GetComponent<Rigidbody>().AddForce(transform.forward * 5);
-                //gunIsFiring = false;
             } 
             isFire = !isFire;
+
+            if(TBullet != null){
+                Teleport();
+            }
         }
 
     
@@ -56,10 +55,10 @@ public class Translocator : MonoBehaviour, IItem
         this.GetComponent<Collider>().enabled = true;
     }
 
-    //IEnumerator Wait(){
-        //yield return new WaitForSeconds(1);
-        //gunIsFiring = true;
-    //}
+    IEnumerator Wait(){
+        yield return new WaitForSeconds(1);
+        isFire = !isFire;
+    }
 
     public void Teleport()
     {
