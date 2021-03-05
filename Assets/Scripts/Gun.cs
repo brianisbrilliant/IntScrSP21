@@ -7,6 +7,9 @@ public class Gun : MonoBehaviour, IItem
     [SerializeField]
     Transform bulletSpawn;
 
+    [SerializeField]
+    Rigidbody bulletPrefab;
+
     bool canShoot = true;
 
     void Start() {
@@ -29,12 +32,12 @@ public class Gun : MonoBehaviour, IItem
     public void Use() {
         if(!canShoot) return;
         Debug.Log("<color=red>Pow!</color>");
-        GameObject ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        ball.transform.localScale = Vector3.one * 0.2f;
-        ball.transform.position = bulletSpawn.position;
-        ball.transform.Translate(transform.forward);        // move the ball forward by 1 meter.
-        Rigidbody rb = ball.AddComponent<Rigidbody>();
-        rb.AddForce(transform.forward * 50, ForceMode.Impulse);
+        Rigidbody ball = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        // ball.transform.localScale = Vector3.one * 0.2f;
+        // ball.transform.position = bulletSpawn.position;
+        // ball.transform.Translate(transform.forward);        // move the ball forward by 1 meter.
+        // Rigidbody rb = ball.AddComponent<Rigidbody>();
+        ball.AddForce(transform.forward * 50, ForceMode.Impulse);
         canShoot = false;
         StartCoroutine(Wait());
     }

@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/PickingUpObjs.unity
+    guid: 14a3084432494d949b1768421ac1e60e
+  - enabled: 1
+    path: Assets/Scenes/FallPlatform2.unity
+    guid: c4f49edcd78438a49af2f9e6f4e5f521
   m_configObjects: {}

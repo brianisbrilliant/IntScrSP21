@@ -10,6 +10,9 @@ TagManager:
   - Key
   - Door
   - Item
+  - NextLevel
+  - LastLevel
+  - IDamageable
   layers:
   - Default
   - TransparentFX

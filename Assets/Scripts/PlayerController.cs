@@ -6,22 +6,32 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     public int oxygenSupply = 0;
-    bool crouch = false;
     public int coins = 0;
 
     public TextMeshProUGUI scoreText;
 
     [SerializeField]
     Transform hand;     // this is a hand-positioned Empty child of Camera.
+    
+    [SerializeField]
+    AudioClip doorOpen, getKey;
+
+    AudioSource aud;
 
     IItem heldItem;
 
     Vector3 startPosition;
+    
+    int totalKeys = 0;
+
+    bool crouch = false;
+
 
     void Start() {
         startPosition = this.transform.position;
         // allow FPSController to "teleport"
         this.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+        aud = this.GetComponent<AudioSource>();
     }
 
     float timer = 0, interval = 2;
@@ -64,12 +74,27 @@ public class PlayerController : MonoBehaviour
         crouching();
     }
 
-    // variables that should go at the top...
     
 
     void OnTriggerEnter(Collider other)
     {
         // Debug.Log("I have hit " + other.gameObject.name + "!");
+
+        if(other.gameObject.CompareTag("Key")) {
+            totalKeys += 1;
+            Destroy(other.gameObject);
+            aud.PlayOneShot(getKey);
+        }
+
+        if(other.gameObject.CompareTag("Door")) {
+            if(totalKeys > 0) {
+                totalKeys -= 1;
+                Destroy(other.gameObject);
+                aud.PlayOneShot(doorOpen);
+            } else {
+                Debug.Log("You need a key to open this door.");
+            }
+        }
 
         if(other.gameObject.CompareTag("Item")) {
             Debug.Log("I'm trying to pick up an item.");
