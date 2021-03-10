@@ -36,6 +36,7 @@ public class PlayerComponent : MonoBehaviour
     {
         
         scoreAmount.text = "Score: " + currScore.ToString("0");
+        Debug.Log("Trying to update!!");
 
     }
 }
