@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour, IItem
+public class Translocator : MonoBehaviour, IItem
 {
     
     [SerializeField]
     Transform FirePoint;
 
-     [SerializeField] GameObject bullet;
+    [SerializeField] GameObject TBullet, player;
 
-     bool gunIsFiring = true;
+
+     //bool gunIsFiring = true;
+     bool isFire = false;
     
     //this function will be called from the player controller
     void Start() {
@@ -31,15 +33,19 @@ public class Gun : MonoBehaviour, IItem
         Debug.Log("<color=red>Pow!</color>");
         //Transform FirePoint;
         //firePoint = GameObject.Find("FirePoint").transform;
-        if(gunIsFiring){
+        if (isFire){
             //gunIsFiring.enabled = =!gunIsFiring.enabled;
-            bullet = Instantiate(bullet, FirePoint.position, FirePoint.rotation, null);
-            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
-            gunIsFiring = false;
-            StartCoroutine(Wait());        }
-        
+            Teleport();
+            //StartCoroutine(Wait());        
+            } else {
+                TBullet = Instantiate(TBullet, FirePoint.position, FirePoint.rotation, null);
+                TBullet.GetComponent<Rigidbody>().AddForce(transform.forward * 5);
+                //gunIsFiring = false;
+            } 
+            isFire = !isFire;
+        }
 
-    }
+    
 
     public void Drop() {
         Debug.Log("Dropping our item.");
@@ -50,9 +56,16 @@ public class Gun : MonoBehaviour, IItem
         this.GetComponent<Collider>().enabled = true;
     }
 
-    IEnumerator Wait(){
-        yield return new WaitForSeconds(1);
-        gunIsFiring = true;
+    //IEnumerator Wait(){
+        //yield return new WaitForSeconds(1);
+        //gunIsFiring = true;
+    //}
+
+    public void Teleport()
+    {
+        
+        player.transform.position = TBullet.transform.position;
+        player.transform.Translate(Vector3.up);
     }
 
     public void SecondaryUse() {

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Coin
   - Item
+  - Floor
+  - NextLevel
+  - LastLevel
   layers:
   - Default
   - TransparentFX
