@@ -6,12 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     public int coins; 
     IItem heldItem;
+    public int totalKeys;
+
+    [SerializeField] AudioClip doorOpen; AudioSource aud;
     // Start is called before the first frame updat
    
 
     void Start()
     {
-
+        aud = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -50,6 +53,21 @@ public class PlayerController : MonoBehaviour
 
    void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.CompareTag("Key")){
+            totalKeys += 1;
+            Destroy(other.gameObject);
+        }
+
+        if(other.gameObject.CompareTag("Door")){
+            if(totalKeys > 0){
+                totalKeys -= 1;
+                Destroy(other.gameObject);
+                aud.PlayOneShot(doorOpen);
+            } else {
+                Debug.Log("You need a key to open this door!");
+            }
+        }
+        
         Debug.Log("I have hit " + other.gameObject.name + "!");
 
         if(heldItem == null){
